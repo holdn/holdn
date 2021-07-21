@@ -1,2 +1,2 @@
-oracle-19c-installation
-ÀıÂ÷¸¦ ±â·ÏÇÑ´Ù.
+ï»¿oracle-19c-installation
+ì ˆì°¨ë¥¼ ê¸°ë¡í•œë‹¤.
