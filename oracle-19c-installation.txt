@@ -1,1 +1,2 @@
 oracle-19c-installation
+절차를 기록한다.
