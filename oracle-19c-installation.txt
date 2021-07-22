@@ -24,9 +24,9 @@ export TMPDIR=$TMP
 
 export ORACLE_HOSTNAME=ufirst
 export ORACLE_UNQNAME=orcl
-export ORACLE_BASE=/data/app/oracle
+export ORACLE_BASE=/app/oracle
 export ORACLE_HOME=$ORACLE_BASE/product/19.3.0/dbhome_1
-export ORA_INVENTORY=/data/app/oraInventory
+export ORA_INVENTORY=/app/oraInventory
 export ORACLE_SID=orcl
 export PDB_NAME=pdb
 export DATA_DIR=/data/oradata
@@ -147,3 +147,7 @@ Installed:
 
 Complete!
 [root@ufirst Downloads]# 
+
+
+Oracle Schema Passwords
+my642735Ora
