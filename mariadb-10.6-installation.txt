@@ -1,0 +1,180 @@
+﻿##################################################
+## MariaDB 설치 (root user)
+##################################################
+1. MariaDB 리포지토리 활성화
+  $ vi /etc/yum.repos.d/MariaDB.repo
+
+    /* https://mariadb.org/download/ => 이 Link에서 아래 내용 복사  */
+        # MariaDB 10.6 CentOS repository list - created 2021-07-23 04:36 UTC
+        # https://mariadb.org/download/
+        [mariadb]
+        name = MariaDB
+        baseurl = https://mirror.yongbok.net/mariadb/yum/10.6/centos8-amd64
+        module_hotfixes=1
+        gpgkey=https://mirror.yongbok.net/mariadb/yum/RPM-GPG-KEY-MariaDB
+        gpgcheck=1
+
+
+2. MariaDB 설치
+  /* Boost-program-options 설치하기
+      1. MariaDB-server 설치 시 galera-4 패키지가 먼저 설치되어야 합니다.
+      2. galera-4 설치 시 libboost_program_options.so 라이브러리가 필요합니다.
+      3. 종속성 해결을 위해 Boost-program-options 패키지를 먼저 설치합니다.
+  */
+  $ dnf install boost-program-options -y
+  ...
+
+  /* MariaDB-server 설치하기
+      -. dnf install 명령으로 MariaDB 에 필요한 패키지를 설치합니다.
+   */
+  $ dnf install MariaDB-server MariaDB-client --disablerepo=AppStream -y
+  ...
+
+  
+3. MariaDB 실행
+  /* MariaDB 서비스 등록하기
+      -. systemctl 을 통해 서비스 등록하게 되면 부팅 시 자동으로 시작됩니다.
+  */
+  $ systemctl enable mariadb
+  ...
+  
+  /* MariaDB 서비스 시작하기 */
+  $ systemctl start mariadb
+  ...
+  
+  /* MariaDB 서비스 상태 확인하기 */
+  $ systemctl status mariadb
+  ...
+
+
+4. MariaDB 보안 설정
+  /* MariaDB root 비밀번호 및 보안 설정하기
+      -. mysql_secure_installation 명령을 실행하여 root 초기 패스워드를 설정할 수 있습니다.
+      -> root 암호는 mymaria8205 로 설정함. : mymaria8205
+  */
+  $ mariadb-secure-installation
+  ...
+
+
+5. 접속
+  $ mariadb -u root -p
+    ...
+    /* 다른PC(외부)에서 접속할 수 있도록 GRANT로 root계정에 %접속지를 추가해 줍니다. */
+  MariaDB [(none)]> 
+  MariaDB [(none)]> GRANT ALL PRIVILEGES ON *.* TO root@'%' identified by 'mymaria8205' WITH GRANT OPTION;
+  Query OK, 0 rows affected (0.015 sec)
+  
+  MariaDB [(none)]> flush privileges;
+  Query OK, 0 rows affected (0.001 sec)
+  
+  MariaDB [(none)]> quit
+  $ 
+
+
+6. 방화벽 설정
+  /* 외부접속을 위하여 방화벽 설정을 변경합니다. */
+  $ firewall-cmd --permanent --add-port=3306/tcp
+  $ firewall-cmd --reload
+
+
+##################################################
+## MariaDB의 Data 위치 변경 및 Character Set 변경
+##################################################
+1. MariaDB Data 위치 확인
+  $ mariadb -u root -p
+  ...
+  MariaDB [(none)]> select @@datadir;
+  +-----------------+
+  | @@datadir       |
+  +-----------------+
+  | /var/lib/mysql/ |
+  +-----------------+
+  1 row in set (0.001 sec)
+  
+  MariaDB [(none)]> quit
+
+  
+2. MariaDB 서비스 정지
+  $ systemctl stop mariadb
+  ...
+
+
+3. 변경할 Data dir 생성 및 데이터 복사
+  $ rsync -av /var/lib/mysql /data
+  ...
+  
+4. config 파일 수정(MariaDB 10.6.3 기준)
+  $ vi /etc/my.cnf.d/server.cnf
+  ...
+  [mysqld]
+  port=3306
+  character-set-server=utf8mb4
+  collation-server=utf8mb4_unicode_ci
+  init-connect='SET NAMES utf8mb4'
+  datadir=/data/mysql
+  socket=/data/mysql/mysql.sock
+  ...
+  
+  $ vi /etc/my.cnf.d/client.cnf
+  ...
+  [client]
+  port=3306
+  socket=/data/mysql/mysql.sock
+  default-character-set=utf8mb4
+  ...
+  
+  $ vi /etc/my.cnf.d/mysql-clients.cnf
+  ...
+  [mysql]
+  default-character-set=utf8mb4
+  
+  [mysql_upgrade]
+  
+  [mysqladmin]
+  
+  [mysqlbinlog]
+  
+  [mysqlcheck]
+  
+  [mysqldump]
+  default-character-set=utf8mb4
+  
+  [mysqlimport]
+  
+  [mysqlshow]
+  
+  [mysqlslap]
+  ...
+
+
+5. SELinux 보안관련
+  $ semanage fcontext -a -t mysqld_db_t "/data/mysql(/.*)?"
+  ...
+  $ restorecon -R /data/mysql
+  ...
+
+
+6. MariaDB 서비스 시작 및 datadir 확인
+  $ systemctl start mariadb
+  ...
+  $ mariadb -u root -p
+  ...
+  MariaDB [(none)]> select @@datadir;
+  +--------------+
+  | @@datadir    |
+  +--------------+
+  | /data/mysql/ |
+  +--------------+
+  1 row in set (0.001 sec)
+  
+  MariaDB [(none)]> quit
+
+
+7. mysql user homedir 변경
+  $ vi /etc/passwd
+  ...
+
+
+8. 기존 datadir 삭제
+  $ rm -rf /var/lib/mysql
+
