@@ -1,0 +1,23 @@
+# PC 개발환경(Java)
+1. JDK(OpenJdk)
+  1) Download : OpenJDK 16.0.2
+    -. https://jdk.java.net/archive/
+  2) Unzip
+    -. C 드라이브에 Dev 폴더 생성
+    -. C:\Dev 아래에 download 받은 openjdk-16.0.2_windows-x64_bin.zip 의 압축을 푼다.
+    -. JDK home이 다음과 같이 되도록 위치시킨다. : C:\Dev\jdk-16.0.2 
+  3) 환경변수 설정
+    -. 새로만들기 : JAVA_HOME=C:\Dev\jdk-16.0.2
+    -. Path에 다음을 추가 : %JAVA_HOME%\bin
+    
+2. eclipse
+  1) Download : Eclipse IDE for Enterprise Java and Web Developers
+    -. https://www.eclipse.org/downloads/packages/
+  2) Unzip
+    -. C:\Dev\eclipse
+  3) Spring Tool Suite Plugin 설치
+    -. Eclipse Marketplace에서 sts로 검색해서 Spring Tools 3 Add-On for Spring Tools 4 3.9.17. RELEASE 설치
+3. DB Client
+  1) DBeaver  (All Database)
+  2) HeidiSQL (MariaDB)
+    -. Portable version (zipped) 64 bit : https://www.heidisql.com/download.php
