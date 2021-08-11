@@ -198,7 +198,7 @@
   +-----------+-------------+-------------------------------------------+
   4 rows in set (0.001 sec)
   
-  MariaDB [mysql]> CREATE user holdn@localhost IDENTIFIED BY 'mymaria8205';
+  MariaDB [mysql]> CREATE user holdn@'%' IDENTIFIED BY 'mymaria8205';
   Query OK, 0 rows affected (0.014 sec)
   
   MariaDB [mysql]> CREATE user uchan0@localhost IDENTIFIED BY 'mymaria8205';
@@ -212,8 +212,8 @@
   | localhost | root        | *35B1CB0134A13B1AA12AAAE94C2A5956225DB85E |
   | localhost | mysql       | invalid                                   |
   | %         | root        | *35B1CB0134A13B1AA12AAAE94C2A5956225DB85E |
-  | localhost | holdn       | *35B1CB0134A13B1AA12AAAE94C2A5956225DB85E |
-  | localhost | uchan0      | *35B1CB0134A13B1AA12AAAE94C2A5956225DB85E |
+  | %         | holdn       | *35B1CB0134A13B1AA12AAAE94C2A5956225DB85E |
+  | %         | uchan0      | *35B1CB0134A13B1AA12AAAE94C2A5956225DB85E |
   +-----------+-------------+-------------------------------------------+
   6 rows in set (0.001 sec)
   
@@ -232,10 +232,10 @@
   +--------------------+
   5 rows in set (0.000 sec)
   
-  MariaDB [(none)]> grant all privileges on UFIRST.* to holdn@localhost;
+  MariaDB [(none)]> grant all privileges on UFIRST.* to holdn;
   Query OK, 0 rows affected (0.020 sec)
   
-  MariaDB [(none)]> show grants for holdn@localhost;
+  MariaDB [(none)]> show grants for holdn;
   +--------------------------------------------------------------------------------------------------------------+
   | Grants for holdn@localhost                                                                                   |
   +--------------------------------------------------------------------------------------------------------------+
@@ -244,10 +244,10 @@
   +--------------------------------------------------------------------------------------------------------------+
   2 rows in set (0.000 sec)
 
-  MariaDB [(none)]> grant all privileges on UFIRST.* to uchan0@localhost;
+  MariaDB [(none)]> grant all privileges on UFIRST.* to uchan0;
   Query OK, 0 rows affected (0.015 sec)
 
-  MariaDB [(none)]> show grants for uchan0@localhost;
+  MariaDB [(none)]> show grants for uchan0;
   +---------------------------------------------------------------------------------------------------------------+
   | Grants for uchan0@localhost                                                                                   |
   +---------------------------------------------------------------------------------------------------------------+
@@ -259,5 +259,5 @@
   MariaDB [(none)]>   
   /*
    * 권한 제거 방법
-  MariaDB [(none)]> revoke all on UFIRST.* from holdn@localhost;
+  MariaDB [(none)]> revoke all on UFIRST.* from holdn;
    */
