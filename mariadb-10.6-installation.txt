@@ -261,3 +261,39 @@
    * 권한 제거 방법
   MariaDB [(none)]> revoke all on UFIRST.* from holdn;
    */
+
+
+##################################################
+## MariaDB의 Connector/C++ 설치
+##################################################
+1. MariaDB Connector Download
+  Reference URL : https://mariadb.com/downloads/connectors/
+  
+  위 URL에서 설치할 Product(Language)과 Version, OS를 선택하여 Donwload
+  
+2. 설치할 서버에 Upload
+3. Install MariaDB Connector/C++
+  Reference URL : https://mariadb.com/docs/clients/mariadb-connectors/connector-cpp/install/
+  
+  3.1 Extract the tarball:
+    $ tar -xvzf mariadb-connector-cpp-*.tar.gz
+  
+  3.2 Change into the relevant directory:
+    $ cd mariadb-connector-cpp-*/
+  
+  3.3 Install the directories for the header files:
+    $ sudo install -d /usr/include/mariadb/conncpp
+    $ sudo install -d /usr/include/mariadb/conncpp/compat
+  
+  3.4 Install the header files:
+    $ sudo install include/mariadb/* /usr/include/mariadb/
+    $ sudo install include/mariadb/conncpp/* /usr/include/mariadb/conncpp
+    $ sudo install include/mariadb/conncpp/compat/* /usr/include/mariadb/conncpp/compat
+  
+  3.5 Install the directories for the shared libraries:
+    $ sudo install -d /usr/lib64/mariadb
+    $ sudo install -d /usr/lib64/mariadb/plugin
+  
+  3.6 Install the shared libraries:
+    $ sudo install lib64/mariadb/libmariadbcpp.so /usr/lib64
+    $ sudo install lib64/mariadb/plugin/* /usr/lib64/mariadb/plugin

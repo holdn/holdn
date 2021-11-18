@@ -17,7 +17,15 @@
     -. C:\Dev\eclipse
   3) Spring Tool Suite Plugin 설치
     -. Eclipse Marketplace에서 sts로 검색해서 Spring Tools 3 Add-On for Spring Tools 4 3.9.17. RELEASE 설치
+
 3. DB Client
   1) DBeaver  (All Database)
   2) HeidiSQL (MariaDB)
     -. Portable version (zipped) 64 bit : https://www.heidisql.com/download.php
+
+4. SSH, Telnet Client
+  1) Download : MobaXterm
+    -. https://mobaxterm.mobatek.net/download.html
+  2) Unzip
+    -. C:\Dev\MobaXterm
+
